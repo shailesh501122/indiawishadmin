@@ -38,8 +38,7 @@ export const configApiSlice = adminApi.injectEndpoints({
         }),
         updateConfig: builder.mutation<any, { key: string; value: string; description?: string }>({
             query: ({ key, ...data }) => ({
-                url: `/api/config/${key}`, // Backend has /api/config prefix in router but admin.py might differ. 
-                // Wait, main.py says include_router(config.router, prefix="/api/config")
+                url: `/config/${key}`,
                 method: 'PUT',
                 body: data,
             }),
@@ -47,7 +46,7 @@ export const configApiSlice = adminApi.injectEndpoints({
         }),
         createConfig: builder.mutation<any, any>({
             query: (config) => ({
-                url: '/api/config',
+                url: '/config',
                 method: 'POST',
                 body: config,
             }),
