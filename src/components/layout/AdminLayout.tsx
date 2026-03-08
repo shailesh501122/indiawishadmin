@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import {
-    Home as HomeIcon, Settings, LogOut, Bell, Search, Menu, ChevronRight, Tag, Briefcase
+    Home as HomeIcon, Settings, LogOut, Bell, Search, Menu, ChevronRight, Tag, Briefcase, LayoutDashboard, Users, ShoppingBag, BarChart3
 } from 'lucide-react';
 
 import { useSelector, useDispatch } from 'react-redux';
