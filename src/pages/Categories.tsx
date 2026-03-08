@@ -172,20 +172,23 @@ export const Categories = () => {
                 </button>
             </div>
 
-            <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
-                <div className="p-4 border-b border-gray-50">
-                    <button className="text-[#00B4D8] text-sm font-medium flex items-center hover:underline">
-                        <Plus className="h-3.5 w-3.5 mr-1" />
-                        Set Order of Categories
-                    </button>
-                </div>
-
-                <div className="p-4 flex flex-col sm:flex-row justify-end items-center gap-2">
-                    <div className="relative w-full sm:w-64">
+            <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 overflow-hidden">
+                <div className="p-5 border-b border-gray-50 bg-gray-50/30 flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <div className="flex items-center gap-2">
+                        <div className="p-2 bg-white rounded-lg shadow-sm">
+                            <Layers className="h-5 w-5 text-cyan-600" />
+                        </div>
+                        <div>
+                            <p className="text-sm font-bold text-gray-800">Available Categories</p>
+                            <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">Manage your marketplace structure</p>
+                        </div>
+                    </div>
+                    <div className="relative w-full sm:w-72">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                         <input
                             type="text"
-                            placeholder="Search..."
-                            className="w-full pl-3 pr-10 py-1.5 border border-gray-200 rounded text-sm focus:outline-none focus:border-cyan-400"
+                            placeholder="Search categories..."
+                            className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-cyan-50 focus:border-cyan-400 transition-all"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -195,64 +198,62 @@ export const Categories = () => {
                 <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-100 uppercase-headers">
                         <thead>
-                            <tr className="bg-gray-50/50">
-                                <th className="px-4 py-3 text-left text-[11px] font-bold text-gray-400 uppercase tracking-widest border-r border-gray-100 last:border-0 w-16">ID</th>
-                                <th className="px-4 py-3 text-left text-[11px] font-bold text-gray-400 uppercase tracking-widest border-r border-gray-100 last:border-0">Name</th>
-                                <th className="px-4 py-3 text-left text-[11px] font-bold text-gray-400 uppercase tracking-widest border-r border-gray-100 last:border-0 w-24">Image</th>
-                                <th className="px-4 py-3 text-left text-[11px] font-bold text-gray-400 uppercase tracking-widest border-r border-gray-100 last:border-0">Subcategories</th>
-                                <th className="px-4 py-3 text-left text-[11px] font-bold text-gray-400 uppercase tracking-widest border-r border-gray-100 last:border-0 w-24">Active</th>
-                                <th className="px-4 py-3 text-left text-[11px] font-bold text-gray-400 uppercase tracking-widest">Action</th>
+                            <tr className="bg-white">
+                                <th className="px-6 py-4 text-left text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">Category</th>
+                                <th className="px-6 py-4 text-left text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">Structure</th>
+                                <th className="px-6 py-4 text-left text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">Visibility</th>
+                                <th className="px-6 py-4 text-right text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-100">
+                        <tbody className="divide-y divide-gray-100 bg-white">
                             {filteredCategories?.map((cat: any, index: number) => (
-                                <tr key={cat.id} className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/30'} hover:bg-cyan-50/30 transition-colors`}>
-                                    <td className="px-4 py-4 text-sm text-gray-500">{cat.id?.substring(0, 4)}</td>
-                                    <td className="px-4 py-4">
-                                        <div className="flex items-center text-[#06B6D4] font-medium text-sm">
-                                            {cat.name}
+                                <tr key={cat.id} className="group hover:bg-cyan-50/30 transition-all duration-300">
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-12 h-12 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-center overflow-hidden p-2 group-hover:scale-110 transition-transform duration-300 shadow-sm">
+                                                {cat.icon ? (
+                                                    <img
+                                                        src={`${import.meta.env.VITE_API_URL.replace('/api', '')}${cat.icon}`}
+                                                        alt={cat.name}
+                                                        className="w-full h-full object-contain"
+                                                    />
+                                                ) : (
+                                                    <RotateCw className="h-5 w-5 text-gray-300" />
+                                                )}
+                                            </div>
+                                            <div>
+                                                <div className="text-sm font-bold text-gray-800">{cat.name}</div>
+                                                <div className="text-[11px] text-gray-400 max-w-[200px] truncate">{cat.description || 'No description provided'}</div>
+                                            </div>
                                         </div>
                                     </td>
-                                    <td className="px-4 py-4">
-                                        <div className="w-12 h-12 bg-white rounded border border-gray-100 flex items-center justify-center overflow-hidden p-1 shadow-sm">
-                                            {cat.icon ? (
-                                                <img
-                                                    src={`${import.meta.env.VITE_API_URL.replace('/api', '')}${cat.icon}`}
-                                                    alt={cat.name}
-                                                    className="w-full h-full object-contain"
-                                                />
-                                            ) : (
-                                                <RotateCw className="h-6 w-6 text-gray-200" />
-                                            )}
+                                    <td className="px-6 py-4">
+                                        <div className="inline-flex items-center px-3 py-1 bg-cyan-50 text-cyan-700 rounded-lg text-[11px] font-bold border border-cyan-100/50">
+                                            <List className="h-3 w-3 mr-1.5 opacity-60" />
+                                            {cat.subcategory_list?.length || 0} Subcategories
                                         </div>
                                     </td>
-                                    <td className="px-4 py-4 text-[13px] text-gray-600">
-                                        <div className="flex items-center gap-2">
-                                            <span className="px-2 py-0.5 bg-cyan-50 text-cyan-700 rounded-full text-[10px] font-bold border border-cyan-100">
-                                                {cat.subcategory_list?.length || 0} Items
-                                            </span>
-                                            <button
-                                                onClick={() => setManagingSubcatCatId(cat.id)}
-                                                className="px-3 py-1 bg-white border border-gray-200 text-gray-600 hover:text-cyan-600 hover:border-cyan-200 rounded text-[10px] font-bold uppercase tracking-wider transition shadow-sm flex items-center gap-1"
-                                            >
-                                                <Settings className="h-3 w-3" />
-                                                Manage
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td className="px-4 py-4">
+                                    <td className="px-6 py-4">
                                         <label className="relative inline-flex items-center cursor-pointer">
                                             <input type="checkbox" className="sr-only peer" checked={cat.active_status} readOnly />
-                                            <div className="w-10 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-cyan-500"></div>
+                                            <div className="w-10 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-cyan-500 shadow-inner"></div>
                                         </label>
                                     </td>
-                                    <td className="px-4 py-4">
-                                        <div className="flex items-center gap-1.5">
-                                            <button onClick={() => startEdit(cat)} className="w-8 h-8 flex items-center justify-center rounded bg-gray-50 text-gray-400 hover:bg-cyan-50 hover:text-cyan-600 border border-gray-100 transition shadow-sm" title="Edit Category">
-                                                <Edit3 className="h-3.5 w-3.5" />
+                                    <td className="px-6 py-4 text-right">
+                                        <div className="flex items-center justify-end gap-2">
+                                            <button
+                                                onClick={() => setManagingSubcatCatId(cat.id)}
+                                                className="px-4 py-1.5 bg-white border border-gray-200 text-gray-600 hover:text-cyan-600 hover:border-cyan-200 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all shadow-sm flex items-center gap-2 group/btn"
+                                            >
+                                                <Settings className="h-3.5 w-3.5 group-hover/btn:rotate-90 transition-transform" />
+                                                Manage
                                             </button>
-                                            <button onClick={() => handleDelete(cat.id)} className="w-8 h-8 flex items-center justify-center rounded bg-gray-50 text-gray-400 hover:bg-rose-50 hover:text-rose-600 border border-gray-100 transition shadow-sm" title="Delete Category">
-                                                <Trash2 className="h-3.5 w-3.5" />
+                                            <div className="w-px h-4 bg-gray-100 mx-1"></div>
+                                            <button onClick={() => startEdit(cat)} className="p-2 text-gray-400 hover:text-cyan-600 transition-colors" title="Edit">
+                                                <Edit3 className="h-4 w-4" />
+                                            </button>
+                                            <button onClick={() => handleDelete(cat.id)} className="p-2 text-gray-400 hover:text-rose-600 transition-colors" title="Delete">
+                                                <Trash2 className="h-4 w-4" />
                                             </button>
                                         </div>
                                     </td>
@@ -350,7 +351,7 @@ export const Categories = () => {
                                             {editingSubcatId ? 'Save Changes' : 'Add Item'}
                                         </button>
                                     </div>
-                                    
+
                                     <div className="flex items-center gap-6">
                                         <div className="flex-1">
                                             <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:bg-gray-100/50 transition bg-white/50">
@@ -363,13 +364,13 @@ export const Categories = () => {
                                                 <input type="file" accept="image/*" onChange={handleSubcatFileChange} className="hidden" />
                                             </label>
                                         </div>
-                                        
+
                                         {subcatPreviewUrl && (
                                             <div className="relative group">
                                                 <div className="w-24 h-24 bg-white rounded-2xl border border-gray-100 shadow-sm flex items-center justify-center overflow-hidden p-2">
                                                     <img src={subcatPreviewUrl} alt="Preview" className="w-full h-full object-contain" />
                                                 </div>
-                                                <button 
+                                                <button
                                                     type="button"
                                                     onClick={() => { setSelectedSubcatFile(null); setSubcatPreviewUrl(null); }}
                                                     className="absolute -top-2 -right-2 w-6 h-6 bg-rose-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-rose-600 opacity-0 group-hover:opacity-100 transition"
@@ -379,7 +380,7 @@ export const Categories = () => {
                                             </div>
                                         )}
                                     </div>
-                                    
+
                                     {editingSubcatId && (
                                         <button
                                             type="button"
@@ -398,12 +399,12 @@ export const Categories = () => {
                                     Current Subcategories
                                     <span className="px-1.5 py-0.5 bg-gray-100 text-gray-500 rounded text-[9px] font-mono">{currentCatForSubcat?.subcategory_list?.length || 0}</span>
                                 </h3>
-                                
-                                <div className="grid grid-cols-1 gap-2">
-                                    {currentCatForSubcat?.subcategory_list?.length > 0 ? (
+
+                                <div className="grid grid-cols-1 gap-3">
+                                    {(currentCatForSubcat?.subcategory_list && currentCatForSubcat.subcategory_list.length > 0) ? (
                                         currentCatForSubcat.subcategory_list.map((sub: any) => (
-                                            <div key={sub.id} className="group p-3 bg-white border border-gray-100 rounded-xl hover:border-cyan-200 hover:shadow-md hover:shadow-cyan-100/20 transition flex items-center gap-4">
-                                                <div className="w-10 h-10 bg-gray-50 rounded-lg border border-gray-100 flex items-center justify-center shrink-0 overflow-hidden p-1 group-hover:bg-white transition">
+                                            <div key={sub.id} className="group p-4 bg-white border border-gray-100 rounded-2xl hover:border-cyan-400 hover:shadow-xl hover:shadow-cyan-100/30 transition-all duration-300 flex items-center gap-4">
+                                                <div className="w-12 h-12 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-center shrink-0 overflow-hidden p-2 group-hover:bg-cyan-50/50 transition-colors">
                                                     {sub.icon ? (
                                                         <img
                                                             src={`${import.meta.env.VITE_API_URL.replace('/api', '')}${sub.icon}`}
@@ -411,46 +412,51 @@ export const Categories = () => {
                                                             className="w-full h-full object-contain"
                                                         />
                                                     ) : (
-                                                        <Layers className="h-4 w-4 text-gray-300" />
+                                                        <Layers className="h-5 w-5 text-gray-300" />
                                                     )}
                                                 </div>
                                                 <div className="flex-1">
-                                                    <h4 className="text-sm font-bold text-gray-700">{sub.name}</h4>
-                                                    <p className="text-[10px] text-gray-400 font-mono uppercase tracking-tighter">ID: {sub.id.substring(0, 8)}</p>
+                                                    <h4 className="text-[13px] font-black text-gray-800 tracking-tight">{sub.name}</h4>
+                                                    <div className="flex items-center gap-2 mt-0.5">
+                                                        <span className={`w-1.5 h-1.5 rounded-full ${sub.active_status ? 'bg-green-500' : 'bg-gray-300'}`}></span>
+                                                        <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest">{sub.active_status ? 'Active' : 'Hidden'}</p>
+                                                    </div>
                                                 </div>
-                                                <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition">
+                                                <div className="flex gap-2">
                                                     <button
                                                         onClick={() => startSubcatEdit(sub)}
-                                                        className="w-8 h-8 flex items-center justify-center rounded-lg bg-cyan-50 text-cyan-600 hover:bg-cyan-100 transition"
+                                                        className="p-2.5 bg-gray-50 text-gray-400 hover:bg-cyan-500 hover:text-white rounded-xl transition-all duration-300"
                                                     >
-                                                        <Edit3 className="h-3.5 w-3.5" />
+                                                        <Edit3 className="h-4 w-4" />
                                                     </button>
                                                     <button
                                                         onClick={() => handleSubcatDelete(sub.id)}
-                                                        className="w-8 h-8 flex items-center justify-center rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition"
+                                                        className="p-2.5 bg-gray-50 text-gray-400 hover:bg-rose-500 hover:text-white rounded-xl transition-all duration-300"
                                                     >
-                                                        <Trash2 className="h-3.5 w-3.5" />
+                                                        <Trash2 className="h-4 w-4" />
                                                     </button>
                                                 </div>
                                             </div>
                                         ))
                                     ) : (
-                                        <div className="py-12 flex flex-col items-center justify-center text-center bg-gray-50/50 rounded-2xl border border-dashed border-gray-200">
-                                            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mb-3">
-                                                <Plus className="h-6 w-6 text-gray-300" />
+                                        <div className="py-16 flex flex-col items-center justify-center text-center bg-gray-50/50 rounded-3xl border-2 border-dashed border-gray-200 transition-all">
+                                            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg mb-4">
+                                                <Plus className="h-8 w-8 text-cyan-200" />
                                             </div>
-                                            <p className="text-sm text-gray-400 font-medium">No subcategories yet.<br/>Add your first one above!</p>
+                                            <p className="text-sm text-gray-400 font-bold uppercase tracking-widest">No Subcategories</p>
+                                            <p className="text-xs text-gray-300 mt-1">Start adding structure to your category</p>
                                         </div>
                                     )}
                                 </div>
                             </div>
                         </div>
-                        <div className="bg-gray-50 px-6 py-4 border-t border-gray-100 text-right">
+                        <div className="bg-white px-8 py-5 border-t border-gray-100 flex justify-between items-center">
+                            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Changes are saved automatically</p>
                             <button
                                 onClick={() => { setManagingSubcatCatId(null); setEditingSubcatId(null); setSubcatFormData({ name: '' }); }}
-                                className="px-6 py-2 bg-gray-600 text-white rounded-lg text-sm font-bold hover:bg-gray-700 transition"
+                                className="px-8 py-2.5 bg-gray-900 text-white rounded-xl text-[11px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-lg hover:shadow-xl active:scale-95"
                             >
-                                Done
+                                Close Modal
                             </button>
                         </div>
                     </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useGetAdminListingsQuery, useCreateListingMutation, useUpdateListingMutation, useDeleteListingMutation } from '../store/dashboardApiSlice';
 import { useGetCategoriesQuery } from '../store/configApiSlice';
-import { Plus, Trash2, Edit3, X, Check, Search, RotateCw, List, Download, ShoppingBag } from 'lucide-react';
+import { Plus, Trash2, Edit3, X, Check, Search, RotateCw, List, Download, ShoppingBag, ChevronRight } from 'lucide-react';
 
 export const Listings = () => {
     const { data: listings, isLoading } = useGetAdminListingsQuery(undefined);
@@ -113,154 +113,92 @@ export const Listings = () => {
                 </button>
             </div>
 
-            {isModalOpen && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 shadow-xl">
-                        <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-xl font-bold">{editingListing ? 'Edit Listing' : 'Create New Listing'}</h2>
-                            <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-full"><X className="h-5 w-5" /></button>
+            <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 overflow-hidden">
+                <div className="p-5 border-b border-gray-50 bg-gray-50/30 flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <div className="flex items-center gap-2">
+                        <div className="p-2 bg-white rounded-lg shadow-sm">
+                            <ShoppingBag className="h-5 w-5 text-[#00B4D8]" />
                         </div>
-                        <form onSubmit={handleSave} className="space-y-4">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <label className="text-sm font-bold text-gray-700">Title</label>
-                                    <input
-                                        type="text"
-                                        className="w-full p-2 border rounded-lg"
-                                        value={formData.title}
-                                        onChange={e => setFormData({ ...formData, title: e.target.value })}
-                                        required
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm font-bold text-gray-700">Price (₹)</label>
-                                    <input
-                                        type="number"
-                                        className="w-full p-2 border rounded-lg"
-                                        value={formData.price}
-                                        onChange={e => setFormData({ ...formData, price: e.target.value })}
-                                        required
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm font-bold text-gray-700">Category</label>
-                                    <select
-                                        className="w-full p-2 border rounded-lg"
-                                        value={formData.category_id}
-                                        onChange={e => setFormData({ ...formData, category_id: e.target.value })}
-                                        required
-                                    >
-                                        <option value="">Select Category</option>
-                                        {categories?.map(cat => (
-                                            <option key={cat.id} value={cat.id}>{cat.name}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm font-bold text-gray-700">Status</label>
-                                    <select
-                                        className="w-full p-2 border rounded-lg"
-                                        value={formData.status}
-                                        onChange={e => setFormData({ ...formData, status: e.target.value })}
-                                    >
-                                        <option value="Active">Active</option>
-                                        <option value="Sold">Sold</option>
-                                        <option value="Suspended">Suspended</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-bold text-gray-700">Location</label>
-                                <input
-                                    type="text"
-                                    className="w-full p-2 border rounded-lg"
-                                    value={formData.location}
-                                    onChange={e => setFormData({ ...formData, location: e.target.value })}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-bold text-gray-700">Description</label>
-                                <textarea
-                                    className="w-full p-2 border rounded-lg h-32"
-                                    value={formData.description}
-                                    onChange={e => setFormData({ ...formData, description: e.target.value })}
-                                    required
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-bold text-gray-700">Images</label>
-                                <input
-                                    type="file"
-                                    multiple
-                                    accept="image/*"
-                                    onChange={e => setSelectedFiles(e.target.files)}
-                                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
-                                />
-                            </div>
-                            <div className="flex justify-end gap-3 mt-6">
-                                <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-gray-500 font-bold">Cancel</button>
-                                <button type="submit" className="px-6 py-2 bg-indigo-600 text-white rounded-lg font-bold hover:bg-indigo-700 flex items-center">
-                                    <Check className="h-4 w-4 mr-2" />
-                                    {editingListing ? 'Update' : 'Create'}
-                                </button>
-                            </div>
-                        </form>
+                        <div>
+                            <p className="text-sm font-bold text-gray-800">Product Listings</p>
+                            <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">Manage marketplace inventory</p>
+                        </div>
                     </div>
-                </div>
-            )}
-
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                <div className="p-4 border-b border-gray-200 flex flex-col sm:flex-row justify-between gap-4">
-                    <div className="relative w-full sm:w-96">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <Search className="h-4 w-4 text-gray-400" />
-                        </div>
-                        <input type="text" className="block w-full pl-9 pr-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500/20 outline-none" placeholder="Search Listings..." />
+                    <div className="relative w-full sm:w-72">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                        <input
+                            type="text"
+                            placeholder="Search listings..."
+                            className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-cyan-50 focus:border-cyan-400 transition-all font-medium"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
                     </div>
                 </div>
 
                 <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-100 uppercase-headers">
                         <thead>
-                            <tr className="bg-gray-50/50">
-                                <th className="px-4 py-3 text-left text-[11px] font-bold text-gray-400 uppercase tracking-widest border-r border-gray-100 last:border-0 w-16">ID <span className="inline-block scale-75 ml-0.5">↕</span></th>
-                                <th className="px-4 py-3 text-left text-[11px] font-bold text-gray-400 uppercase tracking-widest border-r border-gray-100 last:border-0">Title / Category <span className="inline-block scale-75 ml-0.5">↕</span></th>
-                                <th className="px-4 py-3 text-left text-[11px] font-bold text-gray-400 uppercase tracking-widest border-r border-gray-100 last:border-0">Price Details <span className="inline-block scale-75 ml-0.5">↕</span></th>
-                                <th className="px-4 py-3 text-left text-[11px] font-bold text-gray-400 uppercase tracking-widest border-r border-gray-100 last:border-0 w-32">Status</th>
-                                <th className="px-4 py-3 text-left text-[11px] font-bold text-gray-400 uppercase tracking-widest border-r border-gray-100 last:border-0">Created <span className="inline-block scale-75 ml-0.5">↕</span></th>
-                                <th className="px-4 py-3 text-left text-[11px] font-bold text-gray-400 uppercase tracking-widest">Action</th>
+                            <tr className="bg-white">
+                                <th className="px-6 py-4 text-left text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">Listing Info</th>
+                                <th className="px-6 py-4 text-left text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">Price & Category</th>
+                                <th className="px-6 py-4 text-left text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">Status</th>
+                                <th className="px-6 py-4 text-left text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">Date</th>
+                                <th className="px-6 py-4 text-right text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-100 font-outfit">
+                        <tbody className="divide-y divide-gray-100 bg-white">
                             {filteredListings?.map((listing: any, index: number) => (
-                                <tr key={listing.id} className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/30'} hover:bg-cyan-50/30 transition-colors`}>
-                                    <td className="px-4 py-4 text-xs text-gray-400 font-mono">{listing.id?.substring(0, 4)}</td>
-                                    <td className="px-4 py-4">
-                                        <div className="text-sm font-bold text-gray-900 truncate max-w-xs">{listing.title}</div>
-                                        <div className="text-[10px] text-gray-400 uppercase tracking-wide font-medium">{listing.category_name}</div>
+                                <tr key={listing.id} className="group hover:bg-cyan-50/30 transition-all duration-300">
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-14 h-14 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-center overflow-hidden shrink-0 group-hover:scale-105 transition-transform duration-300 shadow-sm">
+                                                {listing.images?.length > 0 ? (
+                                                    <img
+                                                        src={`${import.meta.env.VITE_API_URL.replace('/api', '')}${listing.images[0]}`}
+                                                        alt={listing.title}
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                ) : (
+                                                    <RotateCw className="h-5 w-5 text-gray-200" />
+                                                )}
+                                            </div>
+                                            <div className="min-w-0">
+                                                <div className="text-sm font-bold text-gray-800 truncate max-w-[200px]">{listing.title}</div>
+                                                <div className="text-[10px] text-gray-400 font-mono mt-0.5">ID: {listing.id?.substring(0, 8)}</div>
+                                            </div>
+                                        </div>
                                     </td>
-                                    <td className="px-4 py-4 whitespace-nowrap">
-                                        <div className="text-sm font-black text-indigo-600">₹{listing.price?.toLocaleString()}</div>
-                                        <div className="text-[10px] text-gray-400">Regular Listing</div>
+                                    <td className="px-6 py-4">
+                                        <div className="text-sm font-black text-cyan-600">₹{listing.price?.toLocaleString()}</div>
+                                        <div className="flex items-center gap-1.5 mt-1">
+                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tight">{listing.category_name}</span>
+                                            {listing.subcategory && (
+                                                <>
+                                                    <ChevronRight className="h-2 w-2 text-gray-300" />
+                                                    <span className="text-[10px] font-bold text-cyan-500 uppercase tracking-tight">{listing.subcategory}</span>
+                                                </>
+                                            )}
+                                        </div>
                                     </td>
-                                    <td className="px-4 py-4 whitespace-nowrap">
-                                        <span className={`px-2.5 py-1 inline-flex text-[10px] leading-4 font-bold rounded-lg uppercase tracking-wider
-                                            ${listing.status === 'Active' ? 'bg-emerald-100 text-emerald-700' :
-                                                listing.status === 'Sold' ? 'bg-indigo-100 text-indigo-700' :
-                                                    'bg-rose-100 text-rose-700'}`}>
+                                    <td className="px-6 py-4">
+                                        <span className={`px-2.5 py-1 inline-flex text-[10px] font-black rounded-lg uppercase tracking-widest border
+                                            ${listing.status === 'Active' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+                                                listing.status === 'Sold' ? 'bg-gray-50 text-gray-500 border-gray-100' :
+                                                    'bg-rose-50 text-rose-600 border-rose-100'}`}>
                                             {listing.status}
                                         </span>
                                     </td>
-                                    <td className="px-4 py-4 whitespace-nowrap text-xs text-gray-500 font-medium">
-                                        {new Date(listing.created_at).toLocaleDateString()}
+                                    <td className="px-6 py-4 whitespace-nowrap text-[11px] text-gray-400 font-bold uppercase tracking-widest">
+                                        {new Date(listing.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
                                     </td>
-                                    <td className="px-4 py-4">
-                                        <div className="flex items-center gap-1.5">
-                                            <button onClick={() => handleOpenModal(listing)} className="w-8 h-8 flex items-center justify-center rounded bg-cyan-500 text-white hover:bg-cyan-600 transition shadow-sm" title="Edit">
-                                                <Edit3 className="h-3.5 w-3.5" />
+                                    <td className="px-6 py-4 text-right">
+                                        <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                            <button onClick={() => handleOpenModal(listing)} className="p-2.5 bg-white border border-gray-100 text-gray-400 hover:text-cyan-600 hover:border-cyan-200 rounded-xl transition-all shadow-sm">
+                                                <Edit3 className="h-4 w-4" />
                                             </button>
-                                            <button onClick={() => handleDelete(listing.id)} className="w-8 h-8 flex items-center justify-center rounded bg-rose-500 text-white hover:bg-rose-600 transition shadow-sm" title="Delete">
-                                                <Trash2 className="h-3.5 w-3.5" />
+                                            <button onClick={() => handleDelete(listing.id)} className="p-2.5 bg-white border border-gray-100 text-gray-400 hover:text-rose-600 hover:border-rose-200 rounded-xl transition-all shadow-sm">
+                                                <Trash2 className="h-4 w-4" />
                                             </button>
                                         </div>
                                     </td>
