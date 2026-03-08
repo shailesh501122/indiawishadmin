@@ -31,6 +31,35 @@ export const configApiSlice = adminApi.injectEndpoints({
             invalidatesTags: ['Categories' as any],
         }),
 
+        // Subcategories
+        getSubcategories: builder.query<any[], void>({
+            query: () => '/admin/subcategories',
+            providesTags: ['Categories' as any],
+        }),
+        createSubcategory: builder.mutation<any, any>({
+            query: (subcategory) => ({
+                url: '/admin/subcategories',
+                method: 'POST',
+                body: subcategory,
+            }),
+            invalidatesTags: ['Categories' as any],
+        }),
+        updateSubcategory: builder.mutation<any, { id: string; data: any }>({
+            query: ({ id, data }) => ({
+                url: `/admin/subcategories/${id}`,
+                method: 'PUT',
+                body: data,
+            }),
+            invalidatesTags: ['Categories' as any],
+        }),
+        deleteSubcategory: builder.mutation<any, string>({
+            query: (id) => ({
+                url: `/admin/subcategories/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Categories' as any],
+        }),
+
         // System Config
         getConfigs: builder.query<any[], void>({
             query: () => '/config',
@@ -60,6 +89,10 @@ export const {
     useCreateCategoryMutation,
     useUpdateCategoryMutation,
     useDeleteCategoryMutation,
+    useGetSubcategoriesQuery,
+    useCreateSubcategoryMutation,
+    useUpdateSubcategoryMutation,
+    useDeleteSubcategoryMutation,
     useGetConfigsQuery,
     useUpdateConfigMutation,
     useCreateConfigMutation,

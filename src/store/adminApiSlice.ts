@@ -16,5 +16,40 @@ export const adminApi = createApi({
         },
     }),
     tagTypes: ['AdminDashboard', 'Users', 'Listings', 'Properties', 'Categories', 'Settings'],
-    endpoints: () => ({}), // Inject endpoints
+    endpoints: (builder) => ({
+        getServiceCategories: builder.query<any[], void>({
+            query: () => '/admin/service-categories',
+            providesTags: ['Categories'],
+        }),
+        createServiceCategory: builder.mutation<any, FormData>({
+            query: (data) => ({
+                url: '/admin/service-categories',
+                method: 'POST',
+                body: data,
+            }),
+            invalidatesTags: ['Categories'],
+        }),
+        updateServiceCategory: builder.mutation<any, { id: string; data: FormData }>({
+            query: ({ id, data }) => ({
+                url: `/admin/service-categories/${id}`,
+                method: 'PUT',
+                body: data,
+            }),
+            invalidatesTags: ['Categories'],
+        }),
+        deleteServiceCategory: builder.mutation<any, string>({
+            query: (id) => ({
+                url: `/admin/service-categories/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Categories'],
+        }),
+    }),
 });
+
+export const {
+    useGetServiceCategoriesQuery,
+    useCreateServiceCategoryMutation,
+    useUpdateServiceCategoryMutation,
+    useDeleteServiceCategoryMutation,
+} = adminApi;

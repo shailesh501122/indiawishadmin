@@ -8,6 +8,7 @@ import { Users } from './pages/Users';
 import { Listings } from './pages/Listings';
 import { Properties } from './pages/Properties';
 import { Categories } from './pages/Categories';
+import { ServiceCategories } from './pages/ServiceCategories';
 import { Settings } from './pages/Settings';
 import { Login } from './pages/Login';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
@@ -34,6 +35,7 @@ function App() {
                     <Route path="/listings" element={<Listings />} />
                     <Route path="/properties" element={<Properties />} />
                     <Route path="/categories" element={<Categories />} />
+                    <Route path="/service-categories" element={<ServiceCategories />} />
                     <Route path="/analytics" element={<Dashboard />} />
                     <Route path="/settings" element={<Settings />} />
                     <Route path="*" element={<Navigate to="/" replace />} />

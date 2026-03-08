@@ -1,8 +1,7 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import {
-    BarChart3, Users, LayoutDashboard, ShoppingBag,
-    Home as HomeIcon, Settings, LogOut, Bell, Search, Menu, ChevronRight, Tag
+    Home as HomeIcon, Settings, LogOut, Bell, Search, Menu, ChevronRight, Tag, Briefcase
 } from 'lucide-react';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -48,6 +47,7 @@ export const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                                 { name: 'Listings', path: '/listings', icon: ShoppingBag },
                                 { name: 'Properties', path: '/properties', icon: HomeIcon },
                                 { name: 'Categories', path: '/categories', icon: Tag },
+                                { name: 'Service Categories', path: '/service-categories', icon: Briefcase },
                                 { name: 'Analytics', path: '/analytics', icon: BarChart3 },
                             ].map((item) => (
                                 <NavLink

@@ -18,6 +18,7 @@ export const Listings = () => {
         description: '',
         price: '',
         category_id: '',
+        subcategory_id: '',
         status: 'Active',
         location: '',
     });
@@ -31,6 +32,7 @@ export const Listings = () => {
                 description: listing.description,
                 price: listing.price.toString(),
                 category_id: listing.category_id,
+                subcategory_id: listing.subcategory_id || '',
                 status: listing.status,
                 location: listing.location || '',
             });
@@ -41,6 +43,7 @@ export const Listings = () => {
                 description: '',
                 price: '',
                 category_id: '',
+                subcategory_id: '',
                 status: 'Active',
                 location: '',
             });
@@ -304,12 +307,26 @@ export const Listings = () => {
                                     <select
                                         className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-cyan-400 focus:bg-white transition text-sm"
                                         value={formData.category_id}
-                                        onChange={e => setFormData({ ...formData, category_id: e.target.value })}
+                                        onChange={e => setFormData({ ...formData, category_id: e.target.value, subcategory_id: '' })}
                                         required
                                     >
                                         <option value="">Select Category</option>
                                         {categories?.map((cat: any) => (
                                             <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="space-y-1">
+                                    <label className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Subcategory</label>
+                                    <select
+                                        className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-cyan-400 focus:bg-white transition text-sm"
+                                        value={formData.subcategory_id}
+                                        onChange={e => setFormData({ ...formData, subcategory_id: e.target.value })}
+                                        disabled={!formData.category_id}
+                                    >
+                                        <option value="">Select Subcategory</option>
+                                        {categories?.find((c: any) => c.id === formData.category_id)?.subcategory_list?.map((sub: any) => (
+                                            <option key={sub.id} value={sub.id}>{sub.name}</option>
                                         ))}
                                     </select>
                                 </div>
